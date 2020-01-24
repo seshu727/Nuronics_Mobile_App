@@ -1,0 +1,19 @@
+
+public interface basic {
+
+	
+	public void name();
+			
+	
+}
+ class basic1 implements basic{
+
+	@Override
+	public void name() {
+	
+		
+	}
+	
+	
+	
+}

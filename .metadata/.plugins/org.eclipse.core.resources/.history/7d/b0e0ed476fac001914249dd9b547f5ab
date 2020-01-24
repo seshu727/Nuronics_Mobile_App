@@ -1,0 +1,37 @@
+
+
+interface  parent1 {
+	
+	void name();
+	
+
+}
+interface  parent2{
+	void name();
+	
+	
+	
+
+}
+ class son implements parent1,parent2{
+
+	@Override
+	public void name() {
+		
+		
+		System.out.println("hai");
+	}
+	public static void main(String[] args) {
+		
+		son s = new son();
+		s.name();
+		
+		
+		
+	}
+
+
+	 
+	 
+ }
+

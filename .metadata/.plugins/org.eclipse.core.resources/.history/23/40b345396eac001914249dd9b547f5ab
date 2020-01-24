@@ -1,0 +1,19 @@
+
+ interface  parent1 {
+	
+	void name();
+	
+
+}
+interface  parent2{
+	void name1();
+	
+	
+	
+
+}
+ class son implements parent1,parent2{
+	 
+	 
+ }
+

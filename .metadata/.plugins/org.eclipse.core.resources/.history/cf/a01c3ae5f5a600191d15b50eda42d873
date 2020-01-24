@@ -1,0 +1,18 @@
+package com.DriverFactory.java;
+
+
+import org.testng.annotations.Test;
+
+import com.functionlib.java.functions;
+public class TestScript extends functions {
+	@Test
+	public void logintoapp() throws Exception{	
+		functions fb = new functions();
+	fb.logindetails("admin", "master")
+		System.out.println(m);
+     	fb.suppliersdetails("seshu", "kphb 1-3", "hydddd", "hyd", "chandra", "988888", "fgsdbu@gmail.com", "454645", "selenium tester");
+	    String mm =	fb.logout();
+	    System.out.println(mm);
+	}
+	
+	}

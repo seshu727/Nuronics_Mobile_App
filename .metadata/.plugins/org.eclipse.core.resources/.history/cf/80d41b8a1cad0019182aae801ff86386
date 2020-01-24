@@ -1,0 +1,145 @@
+package com.DriverFactory.java;
+
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+import com.utilities.java.ExcelRead;
+import com.utilities.java.listeners;
+
+import functionlib.commonfunctions;
+@Listeners(listeners.class)
+public class DriverScript  extends commonfunctions{
+	ExtentReports reports;
+	ExtentTest test;
+	static String  outputpath2 ="C:\\Users\\seshu.p\\Desktop\\seshu\\stockaccounting\\results\\results.xlsx";
+	String des,obj,loc,locv,Td,sts;
+	 String moduleone="";
+
+   @Test
+	public void readingFromExcel() throws Throwable{
+		reports = new ExtentReports("./reports/extentreports.html");
+		ExcelRead  d= new ExcelRead("C:\\Users\\seshu.p\\Desktop\\seshu\\stockaccounting\\TestInputs\\InputSheet1.xlsx");
+		 int rc=d.rowCount("MasterTestCases");
+		// System.out.println(rc);
+		 
+		for(int i=1;i<=rc;i++){
+		String dataofmasters=d.getCellData("MasterTestCases", i, 2);
+	//	System.out.println(dataofmasters);
+		if(dataofmasters.equalsIgnoreCase("Y")){
+			String sname=d.getCellData("MasterTestCases", i, 1);
+			//System.out.println(sname);
+		
+			test=reports.startTest(sname);
+		
+		
+			for(int k=0;k<d.noOfSheets();k++){
+				
+			String sheetnames=d.sheetName(k);
+		//	System.out.println(sheetnames);
+			if(sname.equalsIgnoreCase(sheetnames)){
+		    for(int j=1;j<=d.rowCount(sheetnames);j++){
+			String  applicationdata=d.getCellData(sheetnames, j, 1);
+		//	System.out.println(applicationdata);
+			
+	  
+		  des= d.getCellData(sheetnames, j, 0);
+		  //  System.out.println(des);
+		  obj=d.getCellData(sheetnames, j,1);
+		  //  System.out.println(obj);
+		  loc= d.getCellData(sheetnames, j, 2);
+		  locv=d.getCellData(sheetnames, j, 3);
+		  Td=d.getCellData(sheetnames, j, 4);
+		  
+		  try{
+		  if(obj.equalsIgnoreCase("startBrowser")){
+			  
+         	driver=startBrowser();
+         	test.log(LogStatus.INFO, des);
+         
+		  }
+		  
+		  if(obj.equalsIgnoreCase("openApplication")){
+			  
+			urlHitting();
+			test.log(LogStatus.INFO, des);
+		  }
+		  
+		  
+		if(obj.equalsIgnoreCase("waitForElement")){
+			  
+			  WaitForFunctions(driver, loc, locv, Td);
+			  test.log(LogStatus.INFO, des);
+			  
+		  }
+		
+		  
+		  if(obj.equalsIgnoreCase("typeAction")){
+			  
+			 
+			 sendingData(driver,loc, locv, Td);
+			 test.log(LogStatus.INFO, des);
+		  }
+		
+		  if(obj.equalsIgnoreCase("clickAction")){
+			  
+			 clickonButton(driver,loc, locv);
+			 test.log(LogStatus.INFO, des);
+		  }
+		
+       if(obj.equalsIgnoreCase("closeBrowser")){
+	  
+	  closeBrowser(driver);
+      }
+       if(obj.equalsIgnoreCase("clickSubmit")){
+    	   submitButton(driver, loc, locv);
+       }
+       if(obj.equalsIgnoreCase("alerthandle")){
+    	  alertsHandle();
+       }
+       if(obj.equalsIgnoreCase("closeBrowser")){
+    	   closeBrowser(driver);
+    	   
+       }
+       if(obj.equalsIgnoreCase("caputuringdata")){
+    	   data(driver, loc, locv);
+       }
+       if(obj.equalsIgnoreCase("validation")){
+    	   validationdata(driver);
+       }
+       if(obj.equalsIgnoreCase("mouse")){
+    	   mouseOvers();
+       }
+       if(obj.equalsIgnoreCase("validate")){
+    	   validationForStock(driver);
+       }
+       
+       
+       d.setCellData(sheetnames, j, 5, "PASS",outputpath2 );
+       d.paintColor(sheetnames, j, 5, "PASS", outputpath2);
+        moduleone="true";
+      //  break;
+		  }catch(Exception e){
+			  d.setCellData(sheetnames, j, 5, "FAIL",outputpath2 );
+		       d.paintColor(sheetnames, j, 5, "FAIL", outputpath2);
+		      moduleone="false";
+		      break; 
+		  }
+		    }
+			}
+			}
+		}else{
+		
+			
+			d.setCellData("MasterTestCases", i, 3, "NOT executed",outputpath2);
+			   d.paintColor("SupplierCreation", i, 3, "NOT excuted", outputpath2);
+			  		}
+		 reports.endTest(test);
+		   reports.flush();
+
+		}
+		
+   }
+}

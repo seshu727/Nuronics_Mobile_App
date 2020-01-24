@@ -1,0 +1,34 @@
+package com.utilities.java;
+
+
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+
+import com.DriverFactory.java.DriverScript;
+
+public class shot extends DriverScript{
+	
+	public  static void screenshot(WebDriver driver) throws Exception{
+	
+		DateFormat date = new SimpleDateFormat("dd_yy_mm hh_ss_mm");
+		Date d = new Date();
+		String d1= date.format(d)	;	
+	         File file= ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+	 	FileUtils.copyFile(file, new File("./screensh/screen+"+d1+".png"));
+	 	
+	   	
+	 	
+	 	
+		
+	 	
+	}
+	
+
+}

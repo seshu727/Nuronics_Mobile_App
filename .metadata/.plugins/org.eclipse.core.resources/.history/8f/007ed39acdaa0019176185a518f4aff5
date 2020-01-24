@@ -1,0 +1,202 @@
+package functionlib;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.utilities.java.PropertiesFile;
+
+
+public class commonfunctions  
+
+{
+	
+   public static WebDriver driver;
+	public static   WebDriver startBrowser() throws Throwable
+	{
+		if(PropertiesFile.getkeyvalue("browser").equalsIgnoreCase("chrome"))
+		
+		{
+		//System.setProperty("webdriver.chrome.driver", "D:\\softwares files\\chromedriver.exe");
+			    driver = new ChromeDriver();
+
+		}
+		else if(PropertiesFile.getkeyvalue("browser").equalsIgnoreCase("ie")){
+			System.setProperty("webdriver.ie.driver", "D:\\softwares files\\IEDriverServer.exe");
+			
+			driver = new InternetExplorerDriver();
+		}
+		
+		return driver;
+	}
+	
+	public static void urlHitting() throws Throwable{
+		
+		//	System.out.println(" hitting");
+		driver.get(PropertiesFile.getkeyvalue("URL"));
+	//	System.out.println("not hitting");
+		driver.manage().window().maximize();
+		
+	}
+
+	public static void clickonButton(WebDriver driver ,String locatortype, String locatorvalue){
+		
+		if(locatortype.equalsIgnoreCase("id")){
+			
+			driver.findElement(By.id(locatorvalue)).click();
+		}
+		else if(locatortype.equalsIgnoreCase("name")){
+			driver.findElement(By.name(locatorvalue)).click();
+		}
+		else if(locatortype.equalsIgnoreCase("xpath")){
+			driver.findElement(By.xpath(locatorvalue)).click();
+		
+	}
+	}
+		public static void sendingData(WebDriver driver , String locatortype,String locatorvalue,String data){
+			
+			if(locatortype.equalsIgnoreCase("id")){
+				driver.findElement(By.id(locatorvalue)).clear();
+				
+				driver.findElement(By.id(locatorvalue)).sendKeys(data);
+			}
+			else if(locatortype.equalsIgnoreCase("name")){
+				driver.findElement(By.name(locatorvalue)).clear();
+				driver.findElement(By.name(locatorvalue)).sendKeys(data);
+			}
+			else if(locatortype.equalsIgnoreCase("xpath")){
+				driver.findElement(By.xpath(locatorvalue)).sendKeys(data);
+				
+			}
+	}
+		public static void WaitForFunctions(WebDriver driver ,String locatortype,String locatorvalue,String waittime){
+			
+			WebDriverWait wait = new WebDriverWait(driver, Integer.parseInt(waittime));
+			if(locatortype.equalsIgnoreCase("id")){
+				
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(locatorvalue)));
+			}
+			else if(locatortype.equalsIgnoreCase("name")){
+				
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.name(locatorvalue)));
+			}
+			else  if(locatortype.equalsIgnoreCase("xpath")){
+				
+				wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(locatorvalue)));
+			}	
+	          
+			
+		}
+		public static void implicitWait(WebDriver driver){
+			driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+				
+		}
+		public static void closeBrowser(WebDriver driver){
+			
+			driver.close();
+		}
+		public static void submitButton(WebDriver driver,String locatortype,String locatorvalue){
+			
+			if(locatortype.equalsIgnoreCase("xpath")){
+				driver.findElement(By.xpath(locatorvalue)).submit();
+			}else
+			if(locatortype.equalsIgnoreCase("id")){
+				driver.findElement(By.id(locatorvalue)).submit();
+			}else
+				if(locatortype.equalsIgnoreCase("name")){
+					driver.findElement(By.name(locatorvalue)).submit();	
+		}
+		}
+		public static  void alertsHandle(){
+			driver.switchTo().alert().accept();
+		}
+				
+		
+		public static void data(WebDriver driver,String loctortype,String locatorvalue) throws IOException
+		{
+			String message="";
+			if(loctortype.equalsIgnoreCase("id"))
+			{
+			message=driver.findElement(By.id(locatorvalue)).getAttribute("value");
+		}
+			else if(loctortype.equalsIgnoreCase("xpath"))
+			{
+			message=driver.findElement(By.xpath(locatorvalue)).getAttribute("value");
+		}
+			else if(loctortype.equalsIgnoreCase("name"))
+			{
+			message=driver.findElement(By.name(locatorvalue)).getAttribute("value");
+
+			
+		}
+
+			FileWriter fw = new FileWriter("C:\\Users\\seshu.p\\Desktop\\seshu\\stockaccounting\\capturedata\\Data.txt");
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(message);
+        bw.flush();
+        bw.close();
+		
+	
+}
+		public void validationdata(WebDriver driver) throws Throwable{
+		
+			FileReader fr = new FileReader("C:\\Users\\seshu.p\\Desktop\\seshu\\stockaccounting\\capturedata\\Data.txt");
+			BufferedReader br = new BufferedReader(fr);
+			String datainit =br.readLine();
+			System.out.println(datainit);
+			driver.findElement(By.xpath("//div[2]/div[2]/div[1]/button[1]")).click();
+			driver.findElement(By.id("psearch")).click();
+			
+		driver.findElement(By.id("psearch")).sendKeys(datainit);
+	    driver.findElement(By.id("btnsubmit")).click();
+	    List<WebElement> rows = driver.findElements(By.tagName("tr"));
+	    System.out.println(rows.size());
+	    for(int i=1;i<=rows.size();i++){
+	    	 String row=rows.get(i).getText();
+	    	 List<WebElement> col = driver.findElements(By.tagName("td"));
+	      	 //System.out.println(col.size());
+	      	
+	    	 for(int j=1;j<=col.size();j++){
+	    		 String cols =col.get(j).getText();
+	 	    	System.out.println(cols);
+	    	 
+   	 
+     	     if(datainit.equals(cols)){
+	    
+	        
+	}	  
+     	
+     	     }
+     	     }
+	 	System.out.println("same");
+	 	
+	 
+     	     }
+     	    
+     	    	 
+     	     
+     	     }
+			
+	
+			
+			
+		
+
+		
+
+
+
+

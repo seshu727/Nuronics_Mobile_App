@@ -1,0 +1,31 @@
+
+ interface  parent1 {
+	
+	void name();
+	
+
+}
+interface  parent2{
+	void name();
+	
+	
+	
+
+}
+ class son implements parent1,parent2{
+
+	@Override
+	public void name1() {
+		
+		
+	}
+
+	@Override
+	public void name() {
+		
+		
+	}
+	 
+	 
+ }
+

@@ -1,0 +1,106 @@
+package com.DriverFactory.java;
+
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import com.utilities.java.ExcelRead;
+import com.utilities.java.listeners;
+
+import functionlib.commonfunctions;
+@Listeners(listeners.class)
+public class DriverScript  extends commonfunctions{
+	 
+	String des,obj,loc,locv,Td,sts;
+	//String outputpath = "";
+
+   @Test
+	public void readingFromExcel() throws Throwable{
+		ExcelRead  d= new ExcelRead("C:\\Users\\seshu.p\\Desktop\\seshu\\stockaccounting\\TestInputs\\InputSheet1.xlsx");
+		 int rc=d.rowCount("MasterTestCases");
+		// System.out.println(rc);
+		 
+		for(int i=1;i<=rc;i++){
+		String dataofmasters=d.getCellData("MasterTestCases", i, 2);
+	//	System.out.println(dataofmasters);
+		if(dataofmasters.equalsIgnoreCase("Y")){
+			String sname=d.getCellData("MasterTestCases", i, 1);
+			//System.out.println(sname);
+			for(int k=0;k<d.noOfSheets();k++){
+				
+			String sheetnames=d.sheetName(k);
+		//	System.out.println(sheetnames);
+			if(sname.equalsIgnoreCase(sheetnames)){
+		    for(int j=1;j<=d.rowCount(sheetnames);j++){
+			String  applicationdata=d.getCellData(sheetnames, j, 1);
+		//	System.out.println(applicationdata);
+			
+	  
+		  des= d.getCellData(sheetnames, j, 0);
+		  //  System.out.println(des);
+		  obj=d.getCellData(sheetnames, j,1);
+		  //  System.out.println(obj);
+		  loc= d.getCellData(sheetnames, j, 2);
+		  locv=d.getCellData(sheetnames, j, 3);
+		  Td=d.getCellData(sheetnames, j, 4);
+		  
+		  
+		  if(obj.equalsIgnoreCase("startBrowser")){
+			  
+         	driver=startBrowser();
+		  }
+		  
+		  if(obj.equalsIgnoreCase("openApplication")){
+			  
+			urlHitting();
+		  }
+		  
+		  
+		if(obj.equalsIgnoreCase("waitForElement")){
+			  
+			  WaitForFunctions(driver, loc, locv, Td);
+		  }
+		
+		  
+		  if(obj.equalsIgnoreCase("typeAction")){
+			  
+			 
+			 sendingData(driver,loc, locv, Td);
+		  }
+		
+		  if(obj.equalsIgnoreCase("clickAction")){
+			  
+			 clickonButton(driver,loc, locv);
+		  }
+		
+       if(obj.equalsIgnoreCase("closeBrowser")){
+	  
+	  closeBrowser(driver);
+      }
+       if(obj.equalsIgnoreCase("clickSubmit")){
+    	   submitButton(driver, loc, locv);
+       }
+       if(obj.equalsIgnoreCase("alerthandle")){
+    	  alertsHandle();
+       }
+       if(obj.equalsIgnoreCase("closeBrowser")){
+    	   closeBrowser(driver);
+    	   
+       }
+		  
+	   }
+	    	 
+	     }
+	     	
+		}
+		
+		
+		
+	     }
+		else{
+		
+			
+			d.setCellData("MasterTestCases", i, 3, "not excuted","C:\\Users\\seshu.p\\Desktop\\seshu\\stockaccounting\\results\\results.xlsx");
+		}
+		}
+   }
+}

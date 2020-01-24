@@ -1,0 +1,18 @@
+
+class basic {
+	
+	
+	
+
+}
+ class basic1 {
+	
+	
+	
+
+}
+ interface son extends basic,basic1{
+	 
+	 
+ }
+

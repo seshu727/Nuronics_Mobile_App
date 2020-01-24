@@ -1,0 +1,111 @@
+package com.DriverFactory.java;
+
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.Test;
+
+import com.utilities.java.ExcelRead;
+
+import functionlib.commonfunctions;
+
+public class DriverScript  extends commonfunctions{
+protected WebDriver driver;
+	String des,obj,loc,locv,Td,sts;
+	
+   @Test
+	public void readingFromExcel() throws Throwable{
+		
+		ExcelRead excel = new ExcelRead("D:\\excel\\InputSheet.xlsx");
+		
+		for(int i =1;i<=excel.rowCount("MasterTestCases");i++){
+	     String excutable = excel.getCellData("MasterTestCases", i, 2);
+	     System.out.println(excutable);
+	     
+	     if(excutable.equalsIgnoreCase("Y")){
+	    	 String module= excel.getCellData("MasterTestCases", i, 1);
+	    	// System.out.println(module);
+	    
+	     for(int j=1;j<=excel.rowCount("ApplicationLogin");j++){
+		  
+		   des= excel.getCellData("ApplicationLogin", j, 0);
+		 //  System.out.println(des);
+		  obj=excel.getCellData("ApplicationLogin", j,1);
+		  System.out.println(obj);
+		  loc= excel.getCellData("ApplicationLogin", j, 2);
+		  locv=excel.getCellData("ApplicationLogin", j, 3);
+		  Td=excel.getCellData("ApplicationLogin", j, 4);
+		  
+		  if(obj.equalsIgnoreCase("startBrowser")){
+			  
+      	driver=	commonfunctions.startBrowser();
+		  }
+		  
+		  if(obj.equalsIgnoreCase("openApplication")){
+			  
+			commonfunctions.urlHitting();
+		  }
+		  
+		  
+		if(obj.equalsIgnoreCase("waitForElement")){
+			  
+			  commonfunctions.WaitForFunctions(driver, loc, locv, Td);
+		  }
+		
+		  
+		  if(obj.equalsIgnoreCase("typeAction")){
+			  
+			  commonfunctions.sendingData(driver,loc, locv, Td);
+		  }
+		
+		  
+		  if(obj.equalsIgnoreCase("waitForElement")){
+			  
+			  commonfunctions.WaitForFunctions(driver, loc, locv, Td);
+		  }
+		
+		  
+		  if(obj.equalsIgnoreCase("typeAction")){
+			  
+			  commonfunctions.sendingData(driver, loc, locv, Td);
+		  }
+		
+		 
+		  if(obj.equalsIgnoreCase("clickAction")){
+			  
+			  commonfunctions.clickonButton(driver,loc, locv);
+		  }
+		
+		  
+		  if(obj.equalsIgnoreCase("waitForElement")){
+			  
+			  
+			 commonfunctions.WaitForFunctions(driver, loc, locv, Td);
+		  }
+            if(obj.equalsIgnoreCase("clickAction")){
+			  
+			  commonfunctions.clickonButton(driver, loc, locv);
+		  }
+      if(obj.equalsIgnoreCase("waitForElement")){
+	  
+	  commonfunctions.WaitForFunctions(driver, loc, locv, Td);
+     }
+      if(obj.equalsIgnoreCase("clickAction")){
+	  
+	  commonfunctions.clickonButton(driver, loc, locv);
+     }
+       if(obj.equalsIgnoreCase("closeBrowser")){
+	  
+	  commonfunctions.closeBrowser(driver);
+      }
+		  
+	   }
+	    	 
+	     }
+	     	
+		}
+		
+		
+		
+	}
+
+
+}

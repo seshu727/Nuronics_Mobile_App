@@ -1,0 +1,18 @@
+
+ interface  basic {
+	
+	
+	
+
+}
+interface  basic1 {
+	
+	
+	
+
+}
+ class son implements basic,basic1{
+	 
+	 
+ }
+

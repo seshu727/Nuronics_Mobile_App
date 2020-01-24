@@ -1,0 +1,28 @@
+package com.constant.java;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+
+public class Browser {
+ public  static	WebDriver driver;
+	
+	@BeforeTest
+	public void launch(){
+	//	System.setProperty("webdriver.chrome.driver", "");
+		driver = new ChromeDriver();
+		driver.get("http://webapp.qedge.com/login.php");
+		driver.manage().window().maximize();
+		
+	
+	}
+	@AfterTest
+	public  void close(){
+		driver.close();
+	}
+	
+	
+	
+
+}
